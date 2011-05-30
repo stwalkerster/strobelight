@@ -2,7 +2,8 @@
 <resources>
     
     <string name="app_name">Strobe Light</string>
-<string name="powerbutton">Power</string>
+<string name="powerbuttonon">Disable Strobe</string>
 <string name="speed">Configure speed</string>
 <string name="healthwarning">WARNING! This could be dangerous to your health and the health of others around you.</string>
+<string name="powerbuttonoff">Enable Strobe</string>
 </resources>
