@@ -47,11 +47,9 @@ public class StrobeLightConfig extends Activity {
             public void onClick(View v) {
                 // Perform action on clicks
                 if (togglebutton.isChecked()) {
-                    Toast.makeText(StrobeLightConfig.this, "Checked", Toast.LENGTH_SHORT).show();
                     bw = new Thread(runner);
                     bw.start();
                 } else {
-                    Toast.makeText(StrobeLightConfig.this, "Not checked", Toast.LENGTH_SHORT).show();
                     runner.requestStop = true;
                 }
             }
