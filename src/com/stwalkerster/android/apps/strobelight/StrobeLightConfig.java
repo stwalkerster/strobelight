@@ -21,19 +21,27 @@ public class StrobeLightConfig extends Activity {
         setContentView(R.layout.main);
         
         final ToggleButton togglebutton = (ToggleButton) findViewById(R.id.ToggleButton01);
-        cam = Camera.open();
         
-        if(cam==null)
-        {
-        	togglebutton.setEnabled(false);
-        	TextView t = (TextView)findViewById(R.id.TextView01);
-        	t.setText(R.string.nocamera);
-        	return;
+        runner = StrobeRunner.getInstance();
+        if(runner.isRunning)
+        {	
+        	
         }
+        else
+        {
+	        cam = Camera.open();
+	        
+	        if(cam==null)
+	        {
+	        	togglebutton.setEnabled(false);
+	        	TextView t = (TextView)findViewById(R.id.TextView01);
+	        	t.setText(R.string.nocamera);
+	        	return;
+	        }
+	        
+	        cam.release();
+        } 
         
-        cam.release();
-        
-        runner =new StrobeRunner();
         
         togglebutton.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {

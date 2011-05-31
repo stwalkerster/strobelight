@@ -4,6 +4,19 @@ import android.hardware.Camera;
 
 public class StrobeRunner implements Runnable {
 
+	protected StrobeRunner()
+	{
+		
+	}
+	
+	public static StrobeRunner getInstance()
+	{
+		return ( instance == null ? instance = new StrobeRunner() : instance );
+	}
+	
+	private static StrobeRunner instance;
+	
+	
 	public volatile boolean requestStop = false;
 	public volatile boolean isRunning = false;
 	public volatile int delay = 10;
