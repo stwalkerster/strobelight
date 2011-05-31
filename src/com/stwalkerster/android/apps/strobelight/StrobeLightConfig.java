@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.*;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 
 public class StrobeLightConfig extends Activity {
 	
@@ -52,10 +53,58 @@ public class StrobeLightConfig extends Activity {
 
         });
         
+        final SeekBar skbar = (SeekBar)findViewById(R.id.SeekBar01);
+        skbar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+			
+			@Override
+			public void onStopTrackingTouch(SeekBar seekBar) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void onStartTrackingTouch(SeekBar seekBar) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void onProgressChanged(SeekBar seekBar, int progress,
+					boolean fromUser) {
+				runner.delay=progress;
+				
+			}
+		});
         
-        
+        final SeekBar skbaroff = (SeekBar)findViewById(R.id.SeekBar02);
+        skbaroff.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+			
+			@Override
+			public void onStopTrackingTouch(SeekBar seekBar) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void onStartTrackingTouch(SeekBar seekBar) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void onProgressChanged(SeekBar seekBar, int progress,
+					boolean fromUser) {
+				runner.delayoff=progress;
+				
+			}
+		});
 
-
         
+    }
+
+    @Override
+    protected void onStop() {
+    	
+    	super.onStop();
     }
 }

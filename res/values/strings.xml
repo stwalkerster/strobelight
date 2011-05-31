@@ -3,7 +3,7 @@
     
     <string name="app_name">Strobe Light</string>
 <string name="powerbuttonon">Disable Strobe</string>
-<string name="speed">Configure speed</string>
+<string name="speed">Time lamp is on</string><string name="speedoff">Time lamp is off</string>
 <string name="healthwarning">WARNING! This could be dangerous to your health and the health of others around you.</string>
 <string name="powerbuttonoff">Enable Strobe</string>
 <string name="nocamera">No camera detected! This is needed for the camera flashlight.</string>

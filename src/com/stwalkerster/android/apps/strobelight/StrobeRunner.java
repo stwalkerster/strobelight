@@ -6,7 +6,8 @@ public class StrobeRunner implements Runnable {
 
 	public volatile boolean requestStop = false;
 	public volatile boolean isRunning = false;
-	
+	public volatile int delay = 10;
+	public volatile int delayoff = 500;
 	
     @Override
     public void run() {
@@ -27,9 +28,9 @@ public class StrobeRunner implements Runnable {
     	{
     		try{
         		cam.setParameters(pon);
-        		Thread.sleep(500);
+        		Thread.sleep(delay);
         		cam.setParameters(poff);
-        		Thread.sleep(500);
+        		Thread.sleep(delayoff);
     		}
     		catch(InterruptedException ex)
     		{
@@ -42,4 +43,5 @@ public class StrobeRunner implements Runnable {
     	isRunning = false;
     	requestStop=false;
     }
+
 }
