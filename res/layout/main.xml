@@ -6,10 +6,10 @@
     android:layout_height="fill_parent"
     >
     <TextView android:text="@string/speed" android:id="@+id/TextView01" android:layout_width="fill_parent" android:layout_height="wrap_content"></TextView>
-	<SeekBar android:id="@+id/SeekBar01" android:layout_height="wrap_content" android:layout_width="fill_parent" android:max="500"></SeekBar>
+	<SeekBar android:id="@+id/SeekBar01" android:layout_height="wrap_content" android:layout_width="fill_parent" android:max="500" android:progress="10"></SeekBar>
 	<TextView android:text="@string/speedoff" android:id="@+id/TextView03" android:layout_width="fill_parent" android:layout_height="wrap_content"></TextView>
 		
-	<SeekBar android:id="@+id/SeekBar02" android:layout_height="wrap_content" android:layout_width="fill_parent" android:max="500"></SeekBar>
+	<SeekBar android:id="@+id/SeekBar02" android:layout_height="wrap_content" android:layout_width="fill_parent" android:max="500" android:progress="500"></SeekBar>
 		<TextView android:text="@string/healthwarning" android:id="@+id/TextView02" android:layout_width="fill_parent" android:layout_height="wrap_content"></TextView>
 	
 	<ToggleButton android:textOn="@string/powerbuttonon" android:textOff="@string/powerbuttonoff" android:id="@+id/ToggleButton01" android:layout_height="wrap_content" android:layout_width="fill_parent"></ToggleButton>
