@@ -45,10 +45,8 @@ public class StrobeLightConfig extends Activity {
                 } else {
                     Toast.makeText(StrobeLightConfig.this, "Not checked", Toast.LENGTH_SHORT).show();
                     runner.requestStop = true;
-                    
                 }
             }
-
         });
         
         final SeekBar skbar = (SeekBar)findViewById(R.id.SeekBar01);
@@ -102,6 +100,9 @@ public class StrobeLightConfig extends Activity {
 
     @Override
     protected void onStop() {
+    	runner.requestStop=true;
+        ToggleButton togglebutton = (ToggleButton) findViewById(R.id.ToggleButton01);
+        togglebutton.setChecked(false);
     	
     	super.onStop();
     }
