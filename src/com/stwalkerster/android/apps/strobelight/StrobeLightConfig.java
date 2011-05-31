@@ -11,7 +11,7 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 public class StrobeLightConfig extends Activity {
 	
 	Camera cam;
-	
+	final StrobeRunner runner;
 	Thread bw;
 	
     /** Called when the activity is first created. */
@@ -33,9 +33,7 @@ public class StrobeLightConfig extends Activity {
         
         cam.release();
         
-        final StrobeRunner runner =new StrobeRunner();
-        
-        
+        runner =new StrobeRunner();
         
         togglebutton.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
