@@ -11,7 +11,7 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 public class StrobeLightConfig extends Activity {
 	
 	Camera cam;
-	final StrobeRunner runner;
+	StrobeRunner runner;
 	Thread bw;
 	
     /** Called when the activity is first created. */
