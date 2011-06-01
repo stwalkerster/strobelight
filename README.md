@@ -1,9 +1,33 @@
 #Strobe light
 
-This is a strobe light app for Android
+A simple strobe light application which turns the camera flash light on and off based on configurable delays. Both the time the light is on and the time the light is off can be configured independently to fully customise the type of flashing you require.
 
-##Description
+For best results, try a very low but not zero value for the "on" time, and a medium to low value for the "off" time.
 
-##Explanation of permissions
-*android.permission.CAMERA
-** for access to camera flashlight
+The timing is not guaranteed to be exact, at the very high speeds the Android system might not be able to control the flash light accurately.
+
+The Camera permission is required to allow the application access to the Camera Flashlight. At no point are any pictures taken.
+
+If you find any bugs, or want to have a look over the source code, it's freely available at https://github.com/stwalkerster/strobelight
+
+# Licence (MIT Licence)
+
+Copyright (c) 2011 Simon Walker
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
