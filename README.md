@@ -6,9 +6,13 @@ For best results, try a very low but not zero value for the "on" time, and a med
 
 The timing is not guaranteed to be exact, at the very high speeds the Android system might not be able to control the flash light accurately.
 
+This application has been developed on a HTC Desire, and has only been tested on a HTC Desire. I make no guarantees that this will work on other Android devices, though it probably will if you have a back-facing camera with a flashlight.
+
 The Camera permission is required to allow the application access to the Camera Flashlight. At no point are any pictures taken.
 
-If you find any bugs, or want to have a look over the source code, it's freely available at https://github.com/stwalkerster/strobelight
+If you find any bugs, please do let me know here: https://github.com/stwalkerster/strobelight/issues
+
+If you want to have a look over the source code, it's freely available at https://github.com/stwalkerster/strobelight
 
 # Licence (MIT Licence)
 

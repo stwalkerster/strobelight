@@ -20,4 +20,5 @@
 <uses-permission android:name="android.permission.CAMERA"></uses-permission>
 
 <uses-sdk android:targetSdkVersion="8" android:minSdkVersion="5"></uses-sdk>
+<uses-feature android:required="true" android:name="android.hardware.camera.flash"></uses-feature>
 </manifest> 
