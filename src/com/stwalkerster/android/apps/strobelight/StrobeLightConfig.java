@@ -23,6 +23,8 @@ public class StrobeLightConfig extends Activity {
         final ToggleButton togglebutton = (ToggleButton) findViewById(R.id.ToggleButton01);
         
         runner = StrobeRunner.getInstance();
+        runner.context = this;
+        
         if(runner.isRunning)
         {	
         	

@@ -1,6 +1,8 @@
 package com.stwalkerster.android.apps.strobelight;
 
+import android.content.Context;
 import android.hardware.Camera;
+import android.widget.Toast;
 
 public class StrobeRunner implements Runnable {
 
@@ -21,6 +23,7 @@ public class StrobeRunner implements Runnable {
 	public volatile boolean isRunning = false;
 	public volatile int delay = 10;
 	public volatile int delayoff = 500;
+	public volatile Context context;
 	
     @Override
     public void run() {
@@ -44,10 +47,16 @@ public class StrobeRunner implements Runnable {
         		Thread.sleep(delay);
         		cam.setParameters(poff);
         		Thread.sleep(delayoff);
+        		throw new RuntimeException();
     		}
     		catch(InterruptedException ex)
     		{
     			
+    		}
+    		catch(RuntimeException ex)
+    		{
+    			requestStop = true;
+    			Toast t = Toast.makeText(context, "Error setting status of camera flash.", Toast.LENGTH_LONG);
     		}
     	}
     	
