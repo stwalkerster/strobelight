@@ -1,6 +1,8 @@
 package com.stwalkerster.android.apps.strobelight;
 
+import android.content.Context;
 import android.hardware.Camera;
+import android.widget.Toast;
 
 public class StrobeRunner implements Runnable {
 
@@ -21,6 +23,8 @@ public class StrobeRunner implements Runnable {
 	public volatile boolean isRunning = false;
 	public volatile int delay = 10;
 	public volatile int delayoff = 500;
+	public volatile StrobeLightConfig controller;
+	public volatile String errorMessage = "";
 	
     @Override
     public void run() {
@@ -49,12 +53,19 @@ public class StrobeRunner implements Runnable {
     		{
     			
     		}
+    		catch(RuntimeException ex)
+    		{
+    			requestStop = true;
+    			errorMessage = "Error setting camera flash status. Your device may be unsupported.";
+    		}
     	}
     	
     	cam.release();
     	
     	isRunning = false;
     	requestStop=false;
+    	
+    	controller.mHandler.post(controller.mShowToastRunnable);
     }
 
 }
