@@ -1,8 +1,10 @@
 package com.stwalkerster.android.apps.strobelight;
 
 import android.app.Activity;
+import android.content.Context;
 import android.hardware.Camera;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.*;
@@ -14,6 +16,14 @@ public class StrobeLightConfig extends Activity {
 	StrobeRunner runner;
 	Thread bw;
 	
+	public final Handler mHandler = new Handler();
+	
+    public final Runnable mShowToastRunnable = new Runnable() {
+        public void run() {
+            showMessage();
+        }
+    };
+	
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -23,7 +33,7 @@ public class StrobeLightConfig extends Activity {
         final ToggleButton togglebutton = (ToggleButton) findViewById(R.id.ToggleButton01);
         
         runner = StrobeRunner.getInstance();
-        runner.context = this;
+        runner.controller = this;
         
         if(runner.isRunning)
         {	
@@ -113,5 +123,22 @@ public class StrobeLightConfig extends Activity {
         togglebutton.setChecked(false);
     	
     	super.onStop();
+    }
+
+    public void showMessage()
+    {
+    	String err = runner.errorMessage;
+    	runner.errorMessage="";
+    	if(!err.equals(""))
+    	{
+	    	Context context = getApplicationContext();
+	    	int duration = Toast.LENGTH_SHORT;
+	
+	    	Toast toast = Toast.makeText(context, err, duration);
+	    	toast.show();
+	    	
+	        ToggleButton togglebutton = (ToggleButton) findViewById(R.id.ToggleButton01);
+	        togglebutton.setChecked(false);
+    	}
     }
 }

@@ -23,7 +23,8 @@ public class StrobeRunner implements Runnable {
 	public volatile boolean isRunning = false;
 	public volatile int delay = 10;
 	public volatile int delayoff = 500;
-	public volatile Context context;
+	public volatile StrobeLightConfig controller;
+	public volatile String errorMessage = "";
 	
     @Override
     public void run() {
@@ -47,7 +48,6 @@ public class StrobeRunner implements Runnable {
         		Thread.sleep(delay);
         		cam.setParameters(poff);
         		Thread.sleep(delayoff);
-        		throw new RuntimeException();
     		}
     		catch(InterruptedException ex)
     		{
@@ -56,7 +56,7 @@ public class StrobeRunner implements Runnable {
     		catch(RuntimeException ex)
     		{
     			requestStop = true;
-    			Toast t = Toast.makeText(context, "Error setting status of camera flash.", Toast.LENGTH_LONG);
+    			errorMessage = "Error setting camera flash status. Your device may be unsupported.";
     		}
     	}
     	
@@ -64,6 +64,8 @@ public class StrobeRunner implements Runnable {
     	
     	isRunning = false;
     	requestStop=false;
+    	
+    	controller.mHandler.post(controller.mShowToastRunnable);
     }
 
 }
