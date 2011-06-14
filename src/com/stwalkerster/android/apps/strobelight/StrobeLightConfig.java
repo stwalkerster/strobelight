@@ -41,17 +41,29 @@ public class StrobeLightConfig extends Activity {
         }
         else
         {
-	        cam = Camera.open();
-	        
-	        if(cam==null)
-	        {
+        	try
+        	{
+        		
+		        cam = Camera.open();
+		        
+		        if(cam==null)
+		        {
+		        	togglebutton.setEnabled(false);
+		        	TextView t = (TextView)findViewById(R.id.TextView01);
+		        	t.setText(R.string.nocamera);
+		        	return;
+		        }
+		        
+		        cam.release();
+        	}
+        	catch(RuntimeException ex)
+        	{
 	        	togglebutton.setEnabled(false);
 	        	TextView t = (TextView)findViewById(R.id.TextView01);
 	        	t.setText(R.string.nocamera);
+	        	Toast.makeText(getApplicationContext(), "Error connecting to camera flash.", Toast.LENGTH_LONG).show();
 	        	return;
-	        }
-	        
-	        cam.release();
+        	}
         } 
         
         
@@ -136,9 +148,9 @@ public class StrobeLightConfig extends Activity {
 	
 	    	Toast toast = Toast.makeText(context, err, duration);
 	    	toast.show();
-	    	
-	        ToggleButton togglebutton = (ToggleButton) findViewById(R.id.ToggleButton01);
-	        togglebutton.setChecked(false);
     	}
+    	
+        ToggleButton togglebutton = (ToggleButton) findViewById(R.id.ToggleButton01);
+        togglebutton.setChecked(false);
     }
 }
