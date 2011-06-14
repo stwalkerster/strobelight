@@ -1,3 +1,4 @@
 
 bin/*
 hs_err_*.log
+gen/com/stwalkerster/android/apps/strobelight/R.java
