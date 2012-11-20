@@ -67,16 +67,29 @@
     </TableRow>
 
     <TableRow
-        android:id="@+id/tableRow5"
+        android:id="@+id/tableRow7"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
-
-        <TextView
+        android:layout_height="wrap_content" ><TextView
             android:id="@+id/TextView02"
             android:layout_width="wrap_content"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
             android:text="@string/healthwarning" >
+
+        </TextView>
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/tableRow5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+
+        <TextView
+            android:id="@+id/TextViewHW2"
+            android:layout_width="wrap_content"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:text="@string/healthwarning2" >
 
         </TextView>
     </TableRow>
