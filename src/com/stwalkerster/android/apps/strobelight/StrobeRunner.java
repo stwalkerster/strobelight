@@ -1,8 +1,6 @@
 package com.stwalkerster.android.apps.strobelight;
 
-import android.content.Context;
 import android.hardware.Camera;
-import android.widget.Toast;
 
 public class StrobeRunner implements Runnable {
 
