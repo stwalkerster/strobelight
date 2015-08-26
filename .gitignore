@@ -2,4 +2,7 @@ bin/
 hs_err_*.log
 gen/
 local.properties
-res/drawable-hdpi/Thumbs.db
+app/build/*
+.idea/*
+.gradle
+build/intermediates/*
