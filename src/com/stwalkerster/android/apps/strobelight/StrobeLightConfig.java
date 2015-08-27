@@ -12,9 +12,9 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 
 public class StrobeLightConfig extends Activity
 {
-	Camera cam;
-	StrobeRunner runner;
-	Thread bw;
+	private Camera cam;
+	private StrobeRunner runner;
+	private Thread thread;
 	private TextView textViewOn;
     private TextView textViewOff;
     private TextView textViewFreq;
@@ -75,81 +75,86 @@ public class StrobeLightConfig extends Activity
         
         
         togglebutton.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				// Perform action on clicks
-				if (togglebutton.isChecked()) {
-					bw = new Thread(runner);
-					bw.start();
-				} else {
-					runner.requestStop = true;
-				}
-			}
-		});
+            public void onClick(View v) {
+                // Perform action on clicks
+                if (togglebutton.isChecked()) {
+                    thread = new Thread(runner);
+                    thread.start();
+                } else {
+                    runner.requestStop = true;
+                }
+            }
+        });
 
 
         seekbarOn.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
-			@Override
-			public void onStopTrackingTouch(SeekBar seekBar) {}
-			@Override
-			public void onStartTrackingTouch(SeekBar seekBar) {}
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
 
-			@Override
-			public void onProgressChanged(SeekBar seekBar, int progress,
-										  boolean fromUser) {
-				runner.delayOn = progress;
-				textViewOn.setText(getResources().getString(R.string.speed) + ": " + progress + " ms");
-				seekbarFreq.setProgress(freqFromDelay(runner.delayOff, runner.delayOn));
-			}
-		});
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                runner.delayOn = progress;
+                textViewOn.setText(getResources().getString(R.string.speed) + ": " + progress + " ms");
+                seekbarFreq.setProgress(freqFromDelay(runner.delayOff, runner.delayOn));
+            }
+        });
 		seekbarOn.setProgress(runner.delayOn);
 
 
         seekbarOff.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
-			@Override
-			public void onStopTrackingTouch(SeekBar seekBar) {}
-			@Override
-			public void onStartTrackingTouch(SeekBar seekBar) {}
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
 
-			@Override
-			public void onProgressChanged(SeekBar seekBar, int progress,
-										  boolean fromUser) {
-				runner.delayOff = progress;
-				textViewOff.setText(getResources().getString(R.string.speedoff) + ": " + progress + " ms");
-				seekbarFreq.setProgress(freqFromDelay(runner.delayOff, runner.delayOn));
-			}
-		});
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                runner.delayOff = progress;
+                textViewOff.setText(getResources().getString(R.string.speedoff) + ": " + progress + " ms");
+                seekbarFreq.setProgress(freqFromDelay(runner.delayOff, runner.delayOn));
+            }
+        });
 		seekbarOff.setProgress(runner.delayOff);
 
 
 		seekbarFreq.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
-			@Override
-			public void onStopTrackingTouch(SeekBar seekBar) {}
-			@Override
-			public void onStartTrackingTouch(SeekBar seekBar) {}
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
 
-			@Override
-			public void onProgressChanged(SeekBar seekBar, int progress,
-										  boolean fromUser) {
-				frequency = progress;
-				if (fromUser) {
-					final float ratio = runner.delayOff / runner.delayOn;
-					float avgTime = (int) (((float) 1 / (float) frequency) * 1000) / 2;
-					seekbarOff.setProgress((int) (avgTime * ratio));
-					seekbarOn.setProgress((int) (avgTime * (1 / ratio)));
-				}
-				textViewFreq.setText(getResources().getString(R.string.frequency) + ": " + frequency + " Hz");
-			}
-		});
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                frequency = progress;
+                if (fromUser) {
+                    final float ratio = runner.delayOff / runner.delayOn;
+                    float avgTime = (int) (((float) 1 / (float) frequency) * 1000) / 2;
+                    seekbarOff.setProgress((int) (avgTime * ratio));
+                    seekbarOn.setProgress((int) (avgTime * (1 / ratio)));
+                }
+                textViewFreq.setText(getResources().getString(R.string.frequency) + ": " + frequency + " Hz");
+            }
+        });
         seekbarFreq.setProgress(0);
 		seekbarFreq.setProgress(freqFromDelay(runner.delayOff, runner.delayOn));
-		
     }
 
     @Override
     protected void onStop() {
     	runner.requestStop = true;
         togglebutton.setChecked(false);
-    	
+
     	super.onStop();
     }
 
