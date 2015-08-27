@@ -19,11 +19,11 @@ public class StrobeRunner implements Runnable {
 	
 	public volatile boolean requestStop = false;
 	public volatile boolean isRunning = false;
-	public volatile int delay = 10;
-	public volatile int delayoff = 500;
+	public volatile int delay = 40;
+	public volatile int delayoff = 40;
 	public volatile StrobeLightConfig controller;
 	public volatile String errorMessage = "";
-	
+
     @Override
     public void run() {
     	if(isRunning)

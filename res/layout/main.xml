@@ -1,117 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/TableLayout1"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <TableRow
-        android:id="@+id/tableRow1"
+    <TextView
+        android:id="@+id/TextViewOn"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingTop="5dp" >
+        android:paddingLeft="5dp"
+        android:text="@string/speed"
+        android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/TextViewOn"
-            android:layout_width="wrap_content"
-            android:paddingLeft="5dp"
-            android:text="@string/speed" >
+    </TextView>
 
-        </TextView>
+    <SeekBar
+        android:id="@+id/SeekBarOn"
+        android:layout_width="match_parent"
+        android:max="500"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:layout_height="wrap_content">
 
-    </TableRow>
+    </SeekBar>
 
-    <TableRow
-        android:id="@+id/tableRow2"
+    <TextView
+        android:id="@+id/TextViewOff"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
+        android:paddingLeft="5dp"
+        android:text="@string/speedoff"
+        android:layout_height="wrap_content">
 
-        <SeekBar
-            android:id="@+id/SeekBarOn"
-            android:layout_width="wrap_content"
-            android:max="500"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp" >
+    </TextView>
 
-        </SeekBar>
-    </TableRow>
+    <SeekBar
+        android:id="@+id/SeekBarOff"
+        android:layout_width="match_parent"
+        android:max="500"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:layout_height="wrap_content">
 
-    <TableRow
-        android:id="@+id/tableRow3"
+    </SeekBar>
+
+    <TextView
+        android:id="@+id/textViewFreq"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingTop="5dp" >
+        android:paddingLeft="5dp"
+        android:text="@string/frequency"
+        android:layout_height="wrap_content" />
 
-        <TextView
-            android:id="@+id/TextViewOff"
-            android:layout_width="wrap_content"
-            android:paddingLeft="5dp"
-            android:text="@string/speedoff" >
+    <SeekBar
+        android:id="@+id/SeekBarFreq"
+        android:layout_width="match_parent"
+        android:max="500"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:layout_height="wrap_content" />
 
-        </TextView>
-
-    </TableRow>
-
-    <TableRow
-        android:id="@+id/tableRow4"
+    <TextView
+        android:id="@+id/TextView02"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:text="@string/healthwarning"
+        android:layout_height="wrap_content">
 
-        <SeekBar
-            android:id="@+id/SeekBarOff"
-            android:layout_width="wrap_content"
-            android:max="500"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp" >
+    </TextView>
 
-        </SeekBar>
-    </TableRow>
-
-    <TableRow
-        android:id="@+id/tableRow7"
+    <TextView
+        android:id="@+id/TextViewHW2"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingTop="5dp" >
-<TextView
-            android:id="@+id/TextView02"
-            android:layout_width="wrap_content"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:text="@string/healthwarning" >
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:text="@string/healthwarning2"
+        android:layout_height="wrap_content">
 
-        </TextView>
-    </TableRow>
+    </TextView>
 
-    <TableRow
-        android:id="@+id/tableRow5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingTop="5dp" >
+    <ToggleButton
+        android:id="@+id/ToggleButtonStrobe"
+        android:layout_width="match_parent"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:textOff="@string/powerbuttonoff"
+        android:textOn="@string/powerbuttonon"
+        android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/TextViewHW2"
-            android:layout_width="wrap_content"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:text="@string/healthwarning2" >
+    </ToggleButton>
 
-        </TextView>
-    </TableRow>
-
-    <TableRow
-        android:id="@+id/tableRow6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingTop="5dp" >
-
-        <ToggleButton
-            android:id="@+id/ToggleButtonStrobe"
-            android:layout_width="wrap_content"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:textOff="@string/powerbuttonoff"
-            android:textOn="@string/powerbuttonon" >
-
-        </ToggleButton>
-    </TableRow>
-
-</TableLayout>
+</LinearLayout>

@@ -16,7 +16,9 @@ public class StrobeLightConfig extends Activity {
 	StrobeRunner runner;
 	Thread bw;
 	private TextView textViewOn;
-	private TextView textViewOff;
+    private TextView textViewOff;
+    private TextView textViewFreq;
+    private int frequency;
 
 	public final Handler mHandler = new Handler();
 	
@@ -25,6 +27,10 @@ public class StrobeLightConfig extends Activity {
             showMessage();
         }
     };
+
+	public int freqFromDelay(int off, int on) {
+		return 1000 / (off + on);
+	}
 	
     /** Called when the activity is first created. */
     @Override
@@ -34,7 +40,8 @@ public class StrobeLightConfig extends Activity {
         
         final ToggleButton togglebutton = (ToggleButton) findViewById(R.id.ToggleButtonStrobe);
 		textViewOn = (TextView) findViewById(R.id.TextViewOn);
-		textViewOff = (TextView) findViewById(R.id.TextViewOff);
+        textViewOff = (TextView) findViewById(R.id.TextViewOff);
+        textViewFreq = (TextView) findViewById(R.id.textViewFreq);
 
         runner = StrobeRunner.getInstance();
         runner.controller = this;
@@ -84,54 +91,67 @@ public class StrobeLightConfig extends Activity {
 		});
         
         final SeekBar skbar = (SeekBar)findViewById(R.id.SeekBarOn);
+		final SeekBar skbaroff = (SeekBar)findViewById(R.id.SeekBarOff);
+		final SeekBar skbarFreq = (SeekBar)findViewById(R.id.SeekBarFreq);
+
         skbar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
-
 			@Override
-			public void onStopTrackingTouch(SeekBar seekBar) {
-				// TODO Auto-generated method stub
-
-			}
-
+			public void onStopTrackingTouch(SeekBar seekBar) {}
 			@Override
-			public void onStartTrackingTouch(SeekBar seekBar) {
-				// TODO Auto-generated method stub
-
-			}
+			public void onStartTrackingTouch(SeekBar seekBar) {}
 
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int progress,
 										  boolean fromUser) {
 				runner.delay = progress;
-				textViewOn.setText(getResources().getString(R.string.speed) + " (" + progress + " ms)");
+				textViewOn.setText(getResources().getString(R.string.speed) + ": " + progress + " ms");
+				skbarFreq.setProgress(freqFromDelay(runner.delayoff, runner.delay));
 			}
 		});
 		skbar.setProgress(runner.delay);
         
-        final SeekBar skbaroff = (SeekBar)findViewById(R.id.SeekBarOff);
         skbaroff.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
-			
 			@Override
 			public void onStopTrackingTouch(SeekBar seekBar) {
-				// TODO Auto-generated method stub
-				
 			}
-			
+
 			@Override
 			public void onStartTrackingTouch(SeekBar seekBar) {
-				// TODO Auto-generated method stub
-				
 			}
-			
+
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int progress,
-					boolean fromUser) {
-				runner.delayoff=progress;
-				textViewOff.setText(getResources().getString(R.string.speedoff) + " (" + progress + " ms)");
+										  boolean fromUser) {
+				runner.delayoff = progress;
+				textViewOff.setText(getResources().getString(R.string.speedoff) + ": " + progress + " ms");
+				skbarFreq.setProgress(freqFromDelay(runner.delayoff, runner.delay));
 			}
 		});
 		skbaroff.setProgress(runner.delayoff);
 
-        
+		skbarFreq.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+			@Override
+			public void onStopTrackingTouch(SeekBar seekBar) {
+			}
+
+			@Override
+			public void onStartTrackingTouch(SeekBar seekBar) {
+			}
+
+			@Override
+			public void onProgressChanged(SeekBar seekBar, int progress,
+										  boolean fromUser) {
+				frequency = progress;
+                if (fromUser) {
+                    float ratio = runner.delayoff / runner.delay;
+                    skbaroff.setProgress(progress);
+                }
+                textViewFreq.setText(getResources().getString(R.string.frequency) + ": " + frequency + " Hz");
+			}
+		});
+        skbarFreq.setProgress(0);
+		skbarFreq.setProgress(freqFromDelay(runner.delayoff, runner.delay));
+
     }
 
     @Override
