@@ -10,14 +10,18 @@ import android.view.View.OnClickListener;
 import android.widget.*;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
-public class StrobeLightConfig extends Activity {
-	
+public class StrobeLightConfig extends Activity
+{
 	Camera cam;
 	StrobeRunner runner;
 	Thread bw;
 	private TextView textViewOn;
     private TextView textViewOff;
     private TextView textViewFreq;
+	private SeekBar seekbarOn;
+	private SeekBar seekbarOff;
+	private SeekBar seekbarFreq;
+	private ToggleButton togglebutton;
     private int frequency;
 
 	public final Handler mHandler = new Handler();
@@ -38,30 +42,23 @@ public class StrobeLightConfig extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         
-        final ToggleButton togglebutton = (ToggleButton) findViewById(R.id.ToggleButtonStrobe);
+        togglebutton = (ToggleButton) findViewById(R.id.ToggleButtonStrobe);
 		textViewOn = (TextView) findViewById(R.id.TextViewOn);
         textViewOff = (TextView) findViewById(R.id.TextViewOff);
         textViewFreq = (TextView) findViewById(R.id.textViewFreq);
+		seekbarOn = (SeekBar) findViewById(R.id.SeekBarOn);
+		seekbarOff = (SeekBar) findViewById(R.id.SeekBarOff);
+		seekbarFreq = (SeekBar) findViewById(R.id.SeekBarFreq);
 
         runner = StrobeRunner.getInstance();
         runner.controller = this;
         
-        if(runner.isRunning)
-        {	
-        	
-        }
-        else
-        {
-        	try
-        	{
-        		
+        if(!runner.isRunning) {
+        	try {
 		        cam = Camera.open();
-		        
-		        if(cam==null)
-		        {
+		        if (cam == null) {
 		        	togglebutton.setEnabled(false);
-		        	TextView t = (TextView)findViewById(R.id.TextViewOn);
-		        	t.setText(R.string.nocamera);
+					textViewOn.setText(R.string.nocamera);
 		        	return;
 		        }
 		        
@@ -70,8 +67,7 @@ public class StrobeLightConfig extends Activity {
         	catch(RuntimeException ex)
         	{
 	        	togglebutton.setEnabled(false);
-	        	TextView t = (TextView)findViewById(R.id.TextViewOn);
-	        	t.setText(R.string.nocamera);
+				textViewOn.setText(R.string.nocamera);
 	        	Toast.makeText(getApplicationContext(), "Error connecting to camera flash.", Toast.LENGTH_LONG).show();
 	        	return;
         	}
@@ -89,12 +85,9 @@ public class StrobeLightConfig extends Activity {
 				}
 			}
 		});
-        
-        final SeekBar skbar = (SeekBar)findViewById(R.id.SeekBarOn);
-		final SeekBar skbaroff = (SeekBar)findViewById(R.id.SeekBarOff);
-		final SeekBar skbarFreq = (SeekBar)findViewById(R.id.SeekBarFreq);
 
-        skbar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+
+        seekbarOn.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 			@Override
 			public void onStopTrackingTouch(SeekBar seekBar) {}
 			@Override
@@ -103,61 +96,58 @@ public class StrobeLightConfig extends Activity {
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int progress,
 										  boolean fromUser) {
-				runner.delay = progress;
+				runner.delayOn = progress;
 				textViewOn.setText(getResources().getString(R.string.speed) + ": " + progress + " ms");
-				skbarFreq.setProgress(freqFromDelay(runner.delayoff, runner.delay));
+				seekbarFreq.setProgress(freqFromDelay(runner.delayOff, runner.delayOn));
 			}
 		});
-		skbar.setProgress(runner.delay);
-        
-        skbaroff.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
-			@Override
-			public void onStopTrackingTouch(SeekBar seekBar) {
-			}
+		seekbarOn.setProgress(runner.delayOn);
 
+
+        seekbarOff.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 			@Override
-			public void onStartTrackingTouch(SeekBar seekBar) {
-			}
+			public void onStopTrackingTouch(SeekBar seekBar) {}
+			@Override
+			public void onStartTrackingTouch(SeekBar seekBar) {}
 
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int progress,
 										  boolean fromUser) {
-				runner.delayoff = progress;
+				runner.delayOff = progress;
 				textViewOff.setText(getResources().getString(R.string.speedoff) + ": " + progress + " ms");
-				skbarFreq.setProgress(freqFromDelay(runner.delayoff, runner.delay));
+				seekbarFreq.setProgress(freqFromDelay(runner.delayOff, runner.delayOn));
 			}
 		});
-		skbaroff.setProgress(runner.delayoff);
+		seekbarOff.setProgress(runner.delayOff);
 
-		skbarFreq.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
-			@Override
-			public void onStopTrackingTouch(SeekBar seekBar) {
-			}
 
+		seekbarFreq.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 			@Override
-			public void onStartTrackingTouch(SeekBar seekBar) {
-			}
+			public void onStopTrackingTouch(SeekBar seekBar) {}
+			@Override
+			public void onStartTrackingTouch(SeekBar seekBar) {}
 
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int progress,
 										  boolean fromUser) {
 				frequency = progress;
-                if (fromUser) {
-                    float ratio = runner.delayoff / runner.delay;
-                    skbaroff.setProgress(progress);
-                }
-                textViewFreq.setText(getResources().getString(R.string.frequency) + ": " + frequency + " Hz");
+				if (fromUser) {
+					final float ratio = runner.delayOff / runner.delayOn;
+					float avgTime = (int) (((float) 1 / (float) frequency) * 1000) / 2;
+					seekbarOff.setProgress((int) (avgTime * ratio));
+					seekbarOn.setProgress((int) (avgTime * (1 / ratio)));
+				}
+				textViewFreq.setText(getResources().getString(R.string.frequency) + ": " + frequency + " Hz");
 			}
 		});
-        skbarFreq.setProgress(0);
-		skbarFreq.setProgress(freqFromDelay(runner.delayoff, runner.delay));
-
+        seekbarFreq.setProgress(0);
+		seekbarFreq.setProgress(freqFromDelay(runner.delayOff, runner.delayOn));
+		
     }
 
     @Override
     protected void onStop() {
-    	runner.requestStop=true;
-        ToggleButton togglebutton = (ToggleButton) findViewById(R.id.ToggleButtonStrobe);
+    	runner.requestStop = true;
         togglebutton.setChecked(false);
     	
     	super.onStop();
@@ -166,9 +156,8 @@ public class StrobeLightConfig extends Activity {
     public void showMessage()
     {
     	String err = runner.errorMessage;
-    	runner.errorMessage="";
-    	if(!err.equals(""))
-    	{
+    	runner.errorMessage = "";
+    	if(!err.equals(""))	{
 	    	Context context = getApplicationContext();
 	    	int duration = Toast.LENGTH_SHORT;
 	
@@ -176,7 +165,6 @@ public class StrobeLightConfig extends Activity {
 	    	toast.show();
     	}
     	
-        ToggleButton togglebutton = (ToggleButton) findViewById(R.id.ToggleButtonStrobe);
         togglebutton.setChecked(false);
     }
 }
