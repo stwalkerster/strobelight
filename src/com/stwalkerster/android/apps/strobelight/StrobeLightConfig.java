@@ -133,7 +133,7 @@ public class StrobeLightConfig extends Activity
             }
         });
         setTextSpeedOn(runner.delayOn);
-        seekbarOn.setProgress(runner.delayOn);
+        seekbarOn.setProgress(delayToSeek(runner.delayOn));
 
 
         ////////////////////
@@ -161,7 +161,7 @@ public class StrobeLightConfig extends Activity
             }
         });
         setTextSpeedOff(runner.delayOff);
-		seekbarOff.setProgress(runner.delayOff);
+		seekbarOff.setProgress(delayToSeek(runner.delayOff));
 
 
         ////////////////////
@@ -189,18 +189,18 @@ public class StrobeLightConfig extends Activity
 
                     setTextFreq(frequency);
 
-                    final float prevRatio = runner.delayOff / runner.delayOn;
+                    final double prevRatio = runner.delayOff / runner.delayOn;
                     final double newOffShare = (prevRatio / (prevRatio + 1));
                     final double newOnShare = 1 - newOffShare;
                     final double newTotalDelay = 1000 / frequency; // ms
-                    runner.delayOff = (int) (newTotalDelay * newOffShare);
-                    runner.delayOn = (int) (newTotalDelay * newOnShare);
+                    runner.delayOff = newTotalDelay * newOffShare;
+                    runner.delayOn = newTotalDelay * newOnShare;
 
                     setTextSpeedOff(runner.delayOff);
                     setTextSpeedOn(runner.delayOn);
 
-                    seekbarOff.setProgress(delayToSeek((int) runner.delayOff));
-                    seekbarOn.setProgress(delayToSeek((int) runner.delayOn));
+                    seekbarOff.setProgress(delayToSeek(runner.delayOff));
+                    seekbarOn.setProgress(delayToSeek(runner.delayOn));
                 }
             }
         });
@@ -210,11 +210,11 @@ public class StrobeLightConfig extends Activity
 		seekbarFreq.setProgress(freqToSeek(frequency));
     }
 
-    private void setTextSpeedOff(float speed) {
+    private void setTextSpeedOff(double speed) {
         textViewOff.setText(getResources().getString(R.string.speedoff) + String.format(": %.1f ms", speed));
     }
 
-    private void setTextSpeedOn(float speed) {
+    private void setTextSpeedOn(double speed) {
         textViewOn.setText(getResources().getString(R.string.speedon) + String.format(": %.1f ms", speed));
     }
 
@@ -287,8 +287,8 @@ public class StrobeLightConfig extends Activity
         return seek;
     }
 
-    private int seekToDelay(int seek) {
-        int delay;
+    private double seekToDelay(int seek) {
+        double delay;
 
         // check
         if (seek < 0)
@@ -308,18 +308,18 @@ public class StrobeLightConfig extends Activity
         return delay;
     }
 
-    private int delayToSeek(int delay) {
+    private int delayToSeek(double delay) {
         int seek;
 
         // input 0 to 999
         // output 0 to 999
         if (delay <= 1000) {
-            seek = delay;
+            seek = (int) Math.round(delay);
         }
         // input 1000 to 10000
         // output 1000 to 1090
         else {
-            seek = 1000 + ((delay - 1000) / 100);
+            seek = 1000 + (((int) Math.round(delay) - 1000) / 100);
         }
 
         // check
@@ -331,7 +331,7 @@ public class StrobeLightConfig extends Activity
         return seek;
     }
 
-    private double freqFromDelays(float delayOff, float delayOn) {
+    private double freqFromDelays(double delayOff, double delayOn) {
         double freq;
         if ((delayOff + delayOn) <= 0)
             freq = 0;

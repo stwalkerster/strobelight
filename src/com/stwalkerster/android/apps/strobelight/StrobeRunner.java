@@ -36,8 +36,8 @@ public class StrobeRunner implements Runnable {
 	
 	public volatile boolean requestStop = false;
 	public volatile boolean isRunning = false;
-	public volatile int delayOn = 40;
-	public volatile int delayOff = 40;
+	public volatile double delayOn = 40;
+	public volatile double delayOff = 40;
 	public volatile StrobeLightConfig controller;
 	public volatile String errorMessage = "";
 
@@ -46,7 +46,7 @@ public class StrobeRunner implements Runnable {
     	if(isRunning)
     		return;
     	
-    	requestStop=false;
+    	requestStop = false;
     	isRunning = true;
     	
     	Camera cam = Camera.open();
@@ -59,9 +59,9 @@ public class StrobeRunner implements Runnable {
     	while(!requestStop) {
     		try {
         		cam.setParameters(pon);
-        		Thread.sleep(delayOn);
+        		Thread.sleep(Math.round(delayOn));
         		cam.setParameters(poff);
-        		Thread.sleep(delayOff);
+        		Thread.sleep(Math.round(delayOff));
     		}
     		catch(InterruptedException ex)
     		{}

@@ -14,6 +14,8 @@ If you find any bugs, please do let me know here: https://github.com/stwalkerste
 
 If you want to have a look over the source code, it's freely available at https://github.com/stwalkerster/strobelight
 
+Strobe light is available on [F-Droid](https://f-droid.org/repository/browse/?fdid=com.stwalkerster.android.apps.strobelight) .
+
 # Licence (MIT Licence)
 
 Original work Copyright (c) 2011 Simon Walker
