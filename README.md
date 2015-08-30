@@ -16,7 +16,8 @@ If you want to have a look over the source code, it's freely available at https:
 
 # Licence (MIT Licence)
 
-Copyright (c) 2011 Simon Walker
+Original work Copyright (c) 2011 Simon Walker
+Modified work Copyright 2015 Mathieu Souchaud
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
