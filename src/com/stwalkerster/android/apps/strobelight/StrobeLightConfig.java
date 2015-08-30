@@ -180,21 +180,27 @@ public class StrobeLightConfig extends Activity
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 if (fromUser) {
                     frequency = seekToFreq(progress);
+
+                    // avoid divide by 0
+                    if (frequency <= 0)
+                        frequency = 1;
+                    if (runner.delayOn <= 0)
+                        runner.delayOn = 1;
+
                     setTextFreq(frequency);
 
-                    //final float ratio = runner.delayOff / runner.delayOn;
-                    float avgTime = (int) ((1 / frequency) * 1000) / 2;
-//                    seekbarOff.setProgress((int) (avgTime * ratio));
-//                    seekbarOn.setProgress((int) (avgTime * (1 / ratio)));
+                    final float prevRatio = runner.delayOff / runner.delayOn;
+                    final double newOffShare = (prevRatio / (prevRatio + 1));
+                    final double newOnShare = 1 - newOffShare;
+                    final double newTotalDelay = 1000 / frequency; // ms
+                    runner.delayOff = (int) (newTotalDelay * newOffShare);
+                    runner.delayOn = (int) (newTotalDelay * newOnShare);
 
-                    runner.delayOff = (int) avgTime;
-                    runner.delayOn = (int) avgTime;
+                    setTextSpeedOff(runner.delayOff);
+                    setTextSpeedOn(runner.delayOn);
 
-                    setTextSpeedOff(avgTime);
-                    setTextSpeedOn(avgTime);
-
-                    seekbarOff.setProgress(delayToSeek((int) avgTime));
-                    seekbarOn.setProgress(delayToSeek((int) avgTime));
+                    seekbarOff.setProgress(delayToSeek((int) runner.delayOff));
+                    seekbarOn.setProgress(delayToSeek((int) runner.delayOn));
                 }
             }
         });
