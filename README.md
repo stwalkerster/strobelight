@@ -1,6 +1,6 @@
 #Strobe light
 
-A simple strobe light application which turns the camera flash light on and off based on configurable delays. Both the time the light is on and the time the light is off can be configured independently to fully customise the type of flashing you require.
+A simple stroboscopic light application which turns the camera flash light on and off based on configurable delays. Both the time the light is on and the time the light is off can be configured independently to fully customise the type of flashing you require.
 
 For best results, try a very low but not zero value for the "on" time, and a medium to low value for the "off" time.
 
