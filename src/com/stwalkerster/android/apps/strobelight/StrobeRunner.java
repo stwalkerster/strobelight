@@ -58,8 +58,9 @@ public class StrobeRunner implements Runnable {
     	
     	while(!requestStop) {
     		try {
-        		cam.setParameters(pon);
+                cam.setParameters(pon);
         		Thread.sleep(Math.round(delayOn));
+
         		cam.setParameters(poff);
         		Thread.sleep(Math.round(delayOff));
     		}

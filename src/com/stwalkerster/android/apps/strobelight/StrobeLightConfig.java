@@ -41,10 +41,16 @@ public class StrobeLightConfig extends Activity
 	private TextView textViewOn;
     private TextView textViewOff;
     private TextView textViewFreq;
-	private SeekBar seekbarOn;
+    private SeekBar seekbarOn;
 	private SeekBar seekbarOff;
 	private SeekBar seekbarFreq;
-	private ToggleButton togglebutton;
+    private ToggleButton toggleButton;
+    private Button moreFreqButton;
+    private Button lessFreqButton;
+    private Button buttonOffLess;
+    private Button buttonOffMore;
+    private Button buttonOnLess;
+    private Button buttonOnMore;
     private double frequency;
     private final int maxSeekDelay = 1090;
     private final int maxSeekFreq = 109;
@@ -63,10 +69,19 @@ public class StrobeLightConfig extends Activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
-        togglebutton = (ToggleButton) findViewById(R.id.ToggleButtonStrobe);
+        toggleButton = (ToggleButton) findViewById(R.id.ToggleButtonStrobe);
+        moreFreqButton = (Button) findViewById(R.id.buttonFreqMore);
+        lessFreqButton = (Button) findViewById(R.id.buttonFreqLess);
+
+        buttonOffLess = (Button) findViewById(R.id.buttonOffLess);
+        buttonOffMore = (Button) findViewById(R.id.buttonOffMore);
+        buttonOnLess = (Button) findViewById(R.id.buttonOnLess);
+        buttonOnMore = (Button) findViewById(R.id.buttonOnMore);
+
 		textViewOn = (TextView) findViewById(R.id.TextViewOn);
         textViewOff = (TextView) findViewById(R.id.TextViewOff);
         textViewFreq = (TextView) findViewById(R.id.textViewFreq);
+
 		seekbarOn = (SeekBar) findViewById(R.id.SeekBarOn);
 		seekbarOff = (SeekBar) findViewById(R.id.SeekBarOff);
 		seekbarFreq = (SeekBar) findViewById(R.id.SeekBarFreq);
@@ -78,7 +93,7 @@ public class StrobeLightConfig extends Activity
         	try {
 		        cam = Camera.open();
 		        if (cam == null) {
-		        	togglebutton.setEnabled(false);
+		        	toggleButton.setEnabled(false);
 					textViewOn.setText(R.string.nocamera);
 		        	return;
 		        }
@@ -87,7 +102,7 @@ public class StrobeLightConfig extends Activity
         	}
         	catch(RuntimeException ex)
         	{
-	        	togglebutton.setEnabled(false);
+	        	toggleButton.setEnabled(false);
 				textViewOn.setText(R.string.nocamera);
 	        	Toast.makeText(getApplicationContext(), "Error connecting to camera flash.", Toast.LENGTH_LONG).show();
 	        	return;
@@ -95,17 +110,62 @@ public class StrobeLightConfig extends Activity
         }
 
 
-        togglebutton.setOnClickListener(new OnClickListener() {
+        toggleButton.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-            // Perform action on clicks
-            if (togglebutton.isChecked()) {
-                thread = new Thread(runner);
-                thread.start();
-            } else {
-                runner.requestStop = true;
-            }
+                // Perform action on clicks
+                if (toggleButton.isChecked()) {
+                    thread = new Thread(runner);
+                    thread.start();
+                } else {
+                    runner.requestStop = true;
+                }
             }
         });
+
+
+        OnClickListener freqButtonListener = new OnClickListener() {
+            public void onClick(View v) {
+                int progress = seekbarFreq.getProgress();
+                if (v == moreFreqButton)
+                    progress += 1;
+                else
+                    progress -= 1;
+                seekbarFreq.setProgress(progress);
+                setSeekbarFreqProgress(progress);
+            }
+        };
+        moreFreqButton.setOnClickListener(freqButtonListener);
+        lessFreqButton.setOnClickListener(freqButtonListener);
+
+
+        OnClickListener offButtonListener = new OnClickListener() {
+            public void onClick(View v) {
+                int progress = seekbarOff.getProgress();
+                if (v == buttonOffMore)
+                    progress += 1;
+                else
+                    progress -= 1;
+                seekbarOff.setProgress(progress);
+                setSeekbarOffProgress(progress);
+            }
+        };
+        buttonOffLess.setOnClickListener(offButtonListener);
+        buttonOffMore.setOnClickListener(offButtonListener);
+
+
+        OnClickListener onButtonListener = new OnClickListener() {
+            public void onClick(View v) {
+                int progress = seekbarOn.getProgress();
+                if (v == buttonOnMore)
+                    progress += 1;
+                else
+                    progress -= 1;
+                seekbarOn.setProgress(progress);
+                setSeekbarOnProgress(progress);
+            }
+        };
+        buttonOnLess.setOnClickListener(onButtonListener);
+        buttonOnMore.setOnClickListener(onButtonListener);
 
 
         ////////////////////
@@ -123,12 +183,7 @@ public class StrobeLightConfig extends Activity
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 if (fromUser) {
-                    runner.delayOn = seekToDelay(progress);
-                    setTextSpeedOn(runner.delayOn);
-
-                    frequency = freqFromDelays(runner.delayOff, runner.delayOn);
-                    setTextFreq(frequency);
-                    seekbarFreq.setProgress(freqToSeek(frequency));
+                    setSeekbarOnProgress(progress);
                 }
             }
         });
@@ -151,12 +206,7 @@ public class StrobeLightConfig extends Activity
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 if (fromUser) {
-                    runner.delayOff = seekToDelay(progress);
-                    setTextSpeedOff(runner.delayOff);
-
-                    frequency = freqFromDelays(runner.delayOff, runner.delayOn);
-                    setTextFreq(frequency);
-                    seekbarFreq.setProgress(freqToSeek(frequency));
+                    setSeekbarOffProgress(progress);
                 }
             }
         });
@@ -179,28 +229,7 @@ public class StrobeLightConfig extends Activity
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 if (fromUser) {
-                    frequency = seekToFreq(progress);
-
-                    // avoid divide by 0
-                    if (frequency <= 0)
-                        frequency = 1;
-                    if (runner.delayOn <= 0)
-                        runner.delayOn = 1;
-
-                    setTextFreq(frequency);
-
-                    final double prevRatio = runner.delayOff / runner.delayOn;
-                    final double newOffShare = (prevRatio / (prevRatio + 1));
-                    final double newOnShare = 1 - newOffShare;
-                    final double newTotalDelay = 1000 / frequency; // ms
-                    runner.delayOff = newTotalDelay * newOffShare;
-                    runner.delayOn = newTotalDelay * newOnShare;
-
-                    setTextSpeedOff(runner.delayOff);
-                    setTextSpeedOn(runner.delayOn);
-
-                    seekbarOff.setProgress(delayToSeek(runner.delayOff));
-                    seekbarOn.setProgress(delayToSeek(runner.delayOn));
+                    setSeekbarFreqProgress(progress);
                 }
             }
         });
@@ -210,12 +239,55 @@ public class StrobeLightConfig extends Activity
 		seekbarFreq.setProgress(freqToSeek(frequency));
     }
 
+    private void setSeekbarFreqProgress(int progress) {
+        frequency = seekToFreq(progress);
+
+        // avoid divide by 0
+        if (frequency <= 0)
+            frequency = 1;
+        if (runner.delayOn <= 0)
+            runner.delayOn = 1;
+
+        setTextFreq(frequency);
+
+        final double prevRatio = runner.delayOff / runner.delayOn;
+        final double newOffShare = (prevRatio / (prevRatio + 1));
+        final double newOnShare = 1 - newOffShare;
+        final double newTotalDelay = 1000 / frequency; // ms
+        runner.delayOff = newTotalDelay * newOffShare;
+        runner.delayOn = newTotalDelay * newOnShare;
+
+        setTextSpeedOff(runner.delayOff);
+        setTextSpeedOn(runner.delayOn);
+
+        seekbarOff.setProgress(delayToSeek(runner.delayOff));
+        seekbarOn.setProgress(delayToSeek(runner.delayOn));
+    }
+
+    private void setSeekbarOffProgress(int progress) {
+        runner.delayOff = seekToDelay(progress);
+        setTextSpeedOff(runner.delayOff);
+
+        frequency = freqFromDelays(runner.delayOff, runner.delayOn);
+        setTextFreq(frequency);
+        seekbarFreq.setProgress(freqToSeek(frequency));
+    }
+
+    private void setSeekbarOnProgress(int progress) {
+        runner.delayOn = seekToDelay(progress);
+        setTextSpeedOn(runner.delayOn);
+
+        frequency = freqFromDelays(runner.delayOff, runner.delayOn);
+        setTextFreq(frequency);
+        seekbarFreq.setProgress(freqToSeek(frequency));
+    }
+
     private void setTextSpeedOff(double speed) {
-        textViewOff.setText(getResources().getString(R.string.speedoff) + String.format(": %.1f ms", speed));
+        textViewOff.setText(getResources().getString(R.string.textSpeedOff) + String.format(": %.1f ms", speed));
     }
 
     private void setTextSpeedOn(double speed) {
-        textViewOn.setText(getResources().getString(R.string.speedon) + String.format(": %.1f ms", speed));
+        textViewOn.setText(getResources().getString(R.string.textSpeedOn) + String.format(": %.1f ms", speed));
     }
 
     private void setTextFreq(double freq) {
@@ -225,7 +297,7 @@ public class StrobeLightConfig extends Activity
     @Override
     protected void onStop() {
     	runner.requestStop = true;
-        togglebutton.setChecked(false);
+        toggleButton.setChecked(false);
 
     	super.onStop();
     }
@@ -242,7 +314,7 @@ public class StrobeLightConfig extends Activity
 	    	toast.show();
     	}
     	
-        togglebutton.setChecked(false);
+        toggleButton.setChecked(false);
     }
 
     private double seekToFreq(int seek) {
