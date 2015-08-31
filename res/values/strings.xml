@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    
     <string name="app_name">Strobe Light</string>
-<string name="powerbuttonon">Disable Strobe</string>
-<string name="speed">Time lamp is on</string><string name="speedoff">Time lamp is off</string>
-<string name="healthwarning">WARNING! This could be dangerous to your health and the health of others around you. You, the user, are responsible for ensuring the safe use of this application.</string>
-<string name="powerbuttonoff">Enable Strobe</string>
-<string name="nocamera">No camera detected! This is needed for the camera flashlight.</string>
-<string name="healthwarning2">DO NOT USE THIS APPLICATION IF YOU ARE SENSITIVE TO FLASHING LIGHTS.</string>
+    <string name="powerbuttonon">Disable Strobe</string>
+    <string name="textSpeedOn">Time lamp is on</string>
+    <string name="textSpeedOff">Time lamp is off</string>
+    <string name="buttonPlus">  +  </string>
+    <string name="buttonMinus">   -   </string>
+    <string name="frequency">Frequency</string>
+    <string name="healthwarning">WARNING! This could be dangerous to your health and the health of others around you. You, the user, are responsible for ensuring the safe use of this application.</string>
+    <string name="powerbuttonoff">Enable Strobe</string>
+    <string name="nocamera">No camera detected! This is needed for the camera flashlight.</string>
+    <string name="healthwarning2">DO NOT USE THIS APPLICATION IF YOU ARE SENSITIVE TO FLASHING LIGHTS.</string>
 </resources>
