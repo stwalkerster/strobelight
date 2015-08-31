@@ -58,11 +58,15 @@ public class StrobeRunner implements Runnable {
         
         while(!requestStop) {
             try {
-                cam.setParameters(pon);
-                Thread.sleep(Math.round(delayOn));
+                if (delayOn > 0) {
+                    cam.setParameters(pon);
+                    Thread.sleep(Math.round(delayOn));
+                }
 
-                cam.setParameters(poff);
-                Thread.sleep(Math.round(delayOff));
+                if (delayOff > 0) {
+                    cam.setParameters(poff);
+                    Thread.sleep(Math.round(delayOff));
+                }
             }
             catch(InterruptedException ex)
             {}
@@ -72,6 +76,7 @@ public class StrobeRunner implements Runnable {
                 errorMessage = "Error setting camera flash status. Your device may be unsupported.";
             }
         }
+        cam.setParameters(poff);
 
         cam.release();
         
