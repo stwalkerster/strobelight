@@ -22,7 +22,7 @@
 
         <SeekBar
             android:id="@+id/SeekBarOn"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:paddingLeft="5dp"
             android:paddingRight="15dp"
             android:layout_height="wrap_content"
@@ -61,7 +61,7 @@
 
         <SeekBar
             android:id="@+id/SeekBarOff"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:paddingLeft="5dp"
             android:paddingRight="15dp"
             android:layout_height="wrap_content"
@@ -99,7 +99,7 @@
 
         <SeekBar
             android:id="@+id/SeekBarFreq"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:paddingLeft="5dp"
             android:paddingRight="15dp"
             android:layout_height="wrap_content"
@@ -129,7 +129,7 @@
         android:paddingRight="5dp"
         android:text="@string/healthwarning"
         android:layout_height="wrap_content"
-        android:textSize="13dp">
+        android:textSize="13sp">
 
     </TextView>
 
@@ -139,7 +139,7 @@
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
         android:text="@string/healthwarning2"
-        android:textSize="13dp"
+        android:textSize="13sp"
         android:layout_height="wrap_content">
 
     </TextView>
