@@ -6,7 +6,7 @@ For best results, try a very low but not zero value for the "on" time, and a med
 
 The timing is not guaranteed to be exact, at the very high speeds the Android system might not be able to control the flash light accurately.
 
-This application has been developed on a HTC Desire, and has only been tested on a HTC Desire. I make no guarantees that this will work on other Android devices, though it probably will if you have a back-facing camera with a flashlight.
+This application has been developed on a HTC Desire, Samsung Galaxy S3, and a OnePlus One and has only been tested on these devices. I make no guarantees that this will work on other Android devices, though it probably will if you have a back-facing camera with a flashlight.
 
 The Camera permission is required to allow the application access to the Camera Flashlight. At no point are any pictures taken.
 
@@ -14,13 +14,11 @@ If you find any bugs, please do let me know here: https://github.com/stwalkerste
 
 If you want to have a look over the source code, it's freely available at https://github.com/stwalkerster/strobelight
 
-Strobe light is available on [F-Droid](https://f-droid.org/repository/browse/?fdid=com.stwalkerster.android.apps.strobelight) .
+Strobe light is primarily available on [Google Play](https://play.google.com/store/apps/details?id=com.stwalkerster.android.apps.strobelight), but an unofficial build is hosted on [F-Droid](https://f-droid.org/repository/browse/?fdid=com.stwalkerster.android.apps.strobelight) .
 
 # Licence (MIT Licence)
 
-Original work Copyright (c) 2011 Simon Walker
-
-Modified work Copyright 2015 Mathieu Souchaud
+Copyright (c) 2015 [Simon Walker](https://github.com/stwalkerster) and [Mathieu Souchaud](https://github.com/souch)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
