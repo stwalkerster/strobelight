@@ -9,6 +9,7 @@
         android:id="@+id/TextViewOn"
         android:layout_width="wrap_content"
         android:paddingLeft="5dp"
+        android:paddingRight="5dp"
         android:text="@string/textSpeedOn"
         android:layout_height="wrap_content">
     </TextView>
@@ -48,6 +49,7 @@
         android:id="@+id/TextViewOff"
         android:layout_width="wrap_content"
         android:paddingLeft="5dp"
+        android:paddingRight="5dp"
         android:text="@string/textSpeedOff"
         android:layout_height="wrap_content">
 
@@ -88,6 +90,7 @@
         android:id="@+id/textViewFreq"
         android:layout_width="wrap_content"
         android:paddingLeft="5dp"
+        android:paddingRight="5dp"
         android:text="@string/frequency"
         android:layout_height="wrap_content" />
 
