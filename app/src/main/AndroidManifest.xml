@@ -6,7 +6,7 @@
     android:versionCode="3">
 
     <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-sdk android:targetSdkVersion="14" android:minSdkVersion="5"></uses-sdk>
+    <uses-sdk android:targetSdkVersion="23" android:minSdkVersion="5"></uses-sdk>
     <uses-feature android:required="true" android:name="android.hardware.camera.flash"></uses-feature>
 
     <application
